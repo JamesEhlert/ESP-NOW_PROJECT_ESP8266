@@ -45,4 +45,111 @@ Criar um link de comunicação confiável e de baixa latência entre microcontro
 1. Na IDE Arduino, vá em Sketch → Include Library → Manage Libraries
 2. Instale as bibliotecas:
    - "ESP8266WiFi" by ESP8266 Community
-   - "U8g2" by oliver.
+   - "U8g2" by oliver
+   - 
+
+⚠️ ATENÇÃO: Passo Mais Importante!
+Antes de tudo, você DEVE descobrir o endereço MAC do seu receptor!
+
+Cada ESP8266 tem um endereço MAC único, como uma "digital" que o identifica na rede. Se você não configurar o transmissor com o MAC correto do receptor, a comunicação não funcionará!
+
+Como Descobrir o MAC do Seu ESP8266
+Carregue este código simples no ESP que será o RECEPTOR:
+
+#include <ESP8266WiFi.h>
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println();
+  Serial.print("MAC Address: ");
+  Serial.println(WiFi.macAddress());
+}
+
+void loop() {
+  // Nada aqui
+}
+
+Passo a passo:
+
+Conecte o ESP8266 no computador
+
+Cole este código na IDE Arduino
+
+Selecione a placa e porta corretas
+
+Faça upload e abra o Serial Monitor (115200 baud)
+
+Anote o MAC Address que aparecer - será algo como: AA:BB:CC:DD:EE:FF
+
+Agora substitua no código do transmissor:
+
+// Cole o MAC do seu receptor aqui:
+uint8_t receiverMAC[6] = {0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF};
+🛠️ Montagem Rápida
+Receptor (LED)
+Pino ESP8266	Componente
+GPIO14 (D5)	LED (+)
+GND	LED (-) com resistor
+Transmissor (Botão)
+Pino ESP8266	Componente
+GPIO5 (D1)	Botão (um terminal)
+GND	Botão (outro terminal)
+
+
+
+📥 Instalação
+Instale as bibliotecas (Sketch > Include Library > Manage Libraries):
+
+ESP8266WiFi
+
+U8g2 (para o display OLED)
+
+Carregue os códigos:
+
+Primeiro o receptor (com o LED)
+
+Depois o transmissor (com o botão)
+
+Lembre-se: Cole o MAC address correto no transmissor!
+
+
+🔧 Como Funciona
+Transmissor verifica o botão 50 vezes por segundo
+
+Receptor recebe o estado do botão e acende/apaga os LEDs
+
+Se perder sinal por 300ms, desliga os LEDs automaticamente
+
+
+🚀 Dicas Importantes
+Distância: Funciona até ~50m em área aberta
+
+Paredes: Sinal enfraquece através de obstáculos
+
+Alimentação: Use fonte 5V estável para melhor performance
+
+
+💡 Ideias para Expandir
+Adicione mais LEDs de cores diferentes
+
+Controle relays ou motores
+
+Crie uma rede com vários dispositivos
+
+Adicione bateria para projeto sem fio total
+
+
+📞 Precisando de Ajuda?
+Se encontrar problemas:
+
+Verifique o MAC address novamente
+
+Confirme as conexões dos componentes
+
+Teste cada ESP8266 individualmente
+
+Lembre-se: 90% dos problemas são causados pelo MAC address incorreto!
+
+Agora é com você! Este projeto é só o começo do que você pode fazer com ESP8266 e comunicação sem fio. 🚀
+
+Divirta-se programando! 😊
